@@ -5,6 +5,9 @@ constructor() {
     this.invoices = [...invoicesData].map(invoice => ({
       ...invoice,
       paymentTerms: invoice.paymentTerms || "Net 30",
+      invoicePrefix: invoice.invoicePrefix || "INV",
+      startingNumber: invoice.startingNumber || 1,
+      taxRate: invoice.taxRate || 10,
       totalPaid: invoice.totalPaid || 0,
       remainingBalance: invoice.remainingBalance || invoice.total,
       payments: invoice.payments || []
@@ -40,12 +43,37 @@ async create(invoiceData) {
     }
     
     const maxId = Math.max(...this.invoices.map(invoice => invoice.Id), 0);
+    
+    // Generate sequential invoice number
+    const prefix = invoiceData.invoicePrefix || "INV";
+    const startingNumber = parseInt(invoiceData.startingNumber) || 1;
+    
+    // Find the highest number with this prefix
+    const prefixInvoices = this.invoices.filter(inv => 
+      inv.invoiceNumber && inv.invoiceNumber.startsWith(prefix + "-")
+    );
+    
+    let nextNumber = startingNumber;
+    if (prefixInvoices.length > 0) {
+      const numbers = prefixInvoices.map(inv => {
+        const numPart = inv.invoiceNumber.split("-").pop();
+        return parseInt(numPart) || 0;
+      });
+      nextNumber = Math.max(...numbers, startingNumber - 1) + 1;
+    }
+    
+    const invoiceNumber = `${prefix}-${String(nextNumber).padStart(3, '0')}`;
+    
     const newInvoice = {
       ...invoiceData,
       Id: maxId + 1,
+      invoiceNumber,
       issueDate: new Date(invoiceData.issueDate).toISOString(),
       dueDate: new Date(invoiceData.dueDate).toISOString(),
       paymentTerms: invoiceData.paymentTerms || "Net 30",
+      invoicePrefix: prefix,
+      startingNumber: startingNumber,
+      taxRate: parseFloat(invoiceData.taxRate) || 10,
       totalPaid: 0,
       remainingBalance: invoiceData.total,
       payments: []
@@ -77,7 +105,10 @@ async update(id, invoiceData) {
       Id: parseInt(id),
       issueDate: new Date(invoiceData.issueDate).toISOString(),
       dueDate: new Date(invoiceData.dueDate).toISOString(),
-      paymentTerms: invoiceData.paymentTerms || "Net 30"
+      paymentTerms: invoiceData.paymentTerms || "Net 30",
+      invoicePrefix: invoiceData.invoicePrefix || "INV",
+      startingNumber: invoiceData.startingNumber || 1,
+      taxRate: parseFloat(invoiceData.taxRate) || 10
     };
     
     this.invoices[index] = updatedInvoice;

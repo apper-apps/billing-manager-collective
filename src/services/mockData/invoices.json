@@ -1,10 +1,12 @@
 [
   {
     "Id": 1,
-    "invoiceNumber": "INV-2024-001",
+    "invoiceNumber": "INV-001",
+    "invoicePrefix": "INV",
+    "startingNumber": 1,
     "clientId": 1,
     "status": "paid",
-"issueDate": "2024-01-15T00:00:00.000Z",
+    "issueDate": "2024-01-15T00:00:00.000Z",
     "dueDate": "2024-02-15T00:00:00.000Z",
     "paymentTerms": "Net 30",
     "lineItems": [
@@ -27,6 +29,7 @@
     ],
     "subtotal": 2950,
     "tax": 295,
+    "taxRate": 10,
     "total": 3245,
     "totalPaid": 3245,
     "remainingBalance": 0,
@@ -50,13 +53,15 @@
   },
   {
     "Id": 2,
-    "invoiceNumber": "INV-2024-002",
+    "invoiceNumber": "INV-002",
+    "invoicePrefix": "INV",
+    "startingNumber": 1,
     "clientId": 2,
-"issueDate": "2024-01-20T00:00:00.000Z",
+    "status": "partially_paid",
+    "issueDate": "2024-01-20T00:00:00.000Z",
     "dueDate": "2024-02-20T00:00:00.000Z",
     "paymentTerms": "Net 30",
     "lineItems": [
-    "lineItems",":", [
       {
         "Id": 3,
         "serviceId": 3,
@@ -66,12 +71,13 @@
         "amount": 5000
       }
     ],
-    "subtotal",": 5000",
-    "tax",": 500",
-    "total",": 5500",
-    "totalPaid",": 2750",
-    "remainingBalance",": 2750",
-    "payments",":", [
+    "subtotal": 5000,
+    "tax": 500,
+    "taxRate": 10,
+    "total": 5500,
+    "totalPaid": 2750,
+    "remainingBalance": 2750,
+    "payments": [
       {
         "Id": 3,
         "amount": 2750,
@@ -80,17 +86,19 @@
         "notes": "50% upfront payment as agreed"
       }
     ],
-    "notes",":", "50% due upon project start"]
+    "notes": "50% due upon project start"
   },
   {
     "Id": 3,
-    "invoiceNumber": "INV-2024-003",
+    "invoiceNumber": "INV-003",
+    "invoicePrefix": "INV",
+    "startingNumber": 1,
     "clientId": 3,
-"issueDate": "2024-01-10T00:00:00.000Z",
+    "status": "overdue",
+    "issueDate": "2024-01-10T00:00:00.000Z",
     "dueDate": "2024-01-25T00:00:00.000Z",
     "paymentTerms": "Net 15",
     "lineItems": [
-    "lineItems",":", [
       {
         "Id": 4,
         "serviceId": 2,
@@ -108,23 +116,26 @@
         "amount": 375
       }
     ],
-    "subtotal",": 675",
-    "tax",": 67.5",
-    "total",": 742.5",
-    "totalPaid",": 0",
-    "remainingBalance",": 742.5",
-    "payments",":", [],
-    "notes",":", "Payment terms: Net 15 days"]
+    "subtotal": 675,
+    "tax": 67.5,
+    "taxRate": 10,
+    "total": 742.5,
+    "totalPaid": 0,
+    "remainingBalance": 742.5,
+    "payments": [],
+    "notes": "Payment terms: Net 15 days"
   },
   {
     "Id": 4,
-    "invoiceNumber": "INV-2024-004",
+    "invoiceNumber": "INV-004",
+    "invoicePrefix": "INV",
+    "startingNumber": 1,
     "clientId": 1,
-"issueDate": "2024-01-25T00:00:00.000Z",
+    "status": "draft",
+    "issueDate": "2024-01-25T00:00:00.000Z",
     "dueDate": "2024-02-25T00:00:00.000Z",
     "paymentTerms": "Net 30",
     "lineItems": [
-    "lineItems",":", [
       {
         "Id": 6,
         "serviceId": 5,
@@ -134,23 +145,26 @@
         "amount": 1800
       }
     ],
-    "subtotal",": 1800",
-    "tax",": 180",
-    "total",": 1980",
-    "totalPaid",": 0",
-    "remainingBalance",": 1980",
-    "payments",":", [],
-    "notes",":", "Draft invoice for brand identity project"]
+    "subtotal": 1800,
+    "tax": 180,
+    "taxRate": 10,
+    "total": 1980,
+    "totalPaid": 0,
+    "remainingBalance": 1980,
+    "payments": [],
+    "notes": "Draft invoice for brand identity project"
   },
   {
     "Id": 5,
-    "invoiceNumber": "INV-2024-005",
+    "invoiceNumber": "INV-005",
+    "invoicePrefix": "INV",
+    "startingNumber": 1,
     "clientId": 4,
-"issueDate": "2024-01-22T00:00:00.000Z",
+    "status": "sent",
+    "issueDate": "2024-01-22T00:00:00.000Z",
     "dueDate": "2024-02-22T00:00:00.000Z",
     "paymentTerms": "Due on Receipt",
     "lineItems": [
-    "lineItems",":", [
       {
         "Id": 7,
         "serviceId": 1,
@@ -168,12 +182,13 @@
         "amount": 800
       }
     ],
-    "subtotal",": 4300",
-    "tax",": 430",
-    "total",": 4730",
-    "totalPaid",": 0",
-    "remainingBalance",": 4730",
-    "payments",":", [],
-    "notes",":", "E-commerce solution with payment processing"]
+    "subtotal": 4300,
+    "tax": 430,
+    "taxRate": 10,
+    "total": 4730,
+    "totalPaid": 0,
+    "remainingBalance": 4730,
+    "payments": [],
+    "notes": "E-commerce solution with payment processing"
   }
 ]

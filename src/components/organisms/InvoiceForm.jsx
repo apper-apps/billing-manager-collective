@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 
 const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
 const [formData, setFormData] = useState({
-invoiceNumber: "",
+    invoiceNumber: "",
+    invoicePrefix: "INV",
+    startingNumber: 1,
     clientId: "",
     status: "draft",
     issueDate: new Date().toISOString().split("T")[0],
@@ -24,6 +26,7 @@ invoiceNumber: "",
     notes: "",
     subtotal: 0,
     tax: 0,
+    taxRate: 10,
     total: 0,
     totalPaid: 0,
     remainingBalance: 0,
@@ -41,12 +44,15 @@ const [showServiceModal, setShowServiceModal] = useState(false);
   }, []);
 
 useEffect(() => {
-    if (invoice) {
+if (invoice) {
       setFormData({
         ...invoice,
         issueDate: invoice.issueDate.split("T")[0],
         dueDate: invoice.dueDate.split("T")[0],
         paymentTerms: invoice.paymentTerms || "Net 30",
+        invoicePrefix: invoice.invoicePrefix || "INV",
+        startingNumber: invoice.startingNumber || 1,
+        taxRate: invoice.taxRate || 10,
         totalPaid: invoice.totalPaid || 0,
         remainingBalance: invoice.remainingBalance || invoice.total,
         payments: invoice.payments || []
@@ -54,9 +60,9 @@ useEffect(() => {
     }
   }, [invoice]);
 
-  useEffect(() => {
+useEffect(() => {
     calculateTotals();
-  }, [formData.lineItems]);
+  }, [formData.lineItems, formData.taxRate]);
 
   const loadData = async () => {
     try {
@@ -73,9 +79,10 @@ useEffect(() => {
     }
   };
 
-  const calculateTotals = () => {
+const calculateTotals = () => {
     const subtotal = formData.lineItems.reduce((sum, item) => sum + item.amount, 0);
-    const tax = subtotal * 0.1; // 10% tax
+    const taxRate = parseFloat(formData.taxRate) || 0;
+    const tax = subtotal * (taxRate / 100);
     const total = subtotal + tax;
 
     setFormData(prev => ({
@@ -156,10 +163,13 @@ const handleSubmit = (e) => {
       return;
     }
     
-    // Generate invoice number if creating new
-    if (!invoice) {
-      const invoiceNumber = `INV-${Date.now()}`;
-      formData.invoiceNumber = invoiceNumber;
+// Generate invoice number if creating new
+    if (!invoice && !formData.invoiceNumber) {
+      const prefix = formData.invoicePrefix || "INV";
+      const startNum = parseInt(formData.startingNumber) || 1;
+      // This will be handled by the service to ensure sequential numbering
+      formData.invoicePrefix = prefix;
+      formData.startingNumber = startNum;
     }
 
     onSubmit(formData);
@@ -211,7 +221,7 @@ const handleCreateClient = async (clientData) => {
   return (
     <form onSubmit={handleSubmit} className="p-6 space-y-6">
       {/* Basic Information */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Invoice Number"
           name="invoiceNumber"
@@ -220,8 +230,29 @@ const handleCreateClient = async (clientData) => {
           placeholder="Will be auto-generated"
           disabled={!!invoice}
         />
+
+        <div className="grid grid-cols-2 gap-2">
+          <Input
+            label="Invoice Prefix"
+            name="invoicePrefix"
+            value={formData.invoicePrefix}
+            onChange={handleInputChange}
+            placeholder="INV"
+            disabled={!!invoice}
+          />
+          <Input
+            label="Starting Number"
+            name="startingNumber"
+            type="number"
+            min="1"
+            value={formData.startingNumber}
+            onChange={handleInputChange}
+            placeholder="1"
+            disabled={!!invoice}
+          />
+        </div>
         
-<div className="space-y-2">
+        <div className="space-y-2">
           <Select
             label="Client"
             name="clientId"
@@ -249,6 +280,18 @@ const handleCreateClient = async (clientData) => {
         </div>
 
         <Input
+          label="Tax Rate (%)"
+          name="taxRate"
+          type="number"
+          min="0"
+          max="100"
+          step="0.01"
+          value={formData.taxRate}
+          onChange={handleInputChange}
+          placeholder="10"
+        />
+
+        <Input
           label="Issue Date"
           name="issueDate"
           type="date"
@@ -257,7 +300,7 @@ const handleCreateClient = async (clientData) => {
           required
         />
 
-<Input
+        <Input
           label="Due Date"
           name="dueDate"
           type="date"
@@ -410,7 +453,7 @@ size="sm"
             <span className="font-semibold">{formatCurrency(formData.subtotal)}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-600">Tax (10%):</span>
+<span className="text-slate-600">Tax ({formData.taxRate}%):</span>
             <span className="font-semibold">{formatCurrency(formData.tax)}</span>
           </div>
           <div className="flex justify-between text-lg font-bold border-t pt-2">
