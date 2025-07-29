@@ -1,9 +1,10 @@
 import invoicesData from "@/services/mockData/invoices.json";
 
 class InvoiceService {
-  constructor() {
+constructor() {
     this.invoices = [...invoicesData].map(invoice => ({
       ...invoice,
+      paymentTerms: invoice.paymentTerms || "Net 30",
       totalPaid: invoice.totalPaid || 0,
       remainingBalance: invoice.remainingBalance || invoice.total,
       payments: invoice.payments || []
@@ -24,7 +25,7 @@ class InvoiceService {
     return { ...invoice };
   }
 
-  async create(invoiceData) {
+async create(invoiceData) {
     await new Promise(resolve => setTimeout(resolve, 400));
     const maxId = Math.max(...this.invoices.map(invoice => invoice.Id), 0);
     const newInvoice = {
@@ -32,6 +33,7 @@ class InvoiceService {
       Id: maxId + 1,
       issueDate: new Date(invoiceData.issueDate).toISOString(),
       dueDate: new Date(invoiceData.dueDate).toISOString(),
+      paymentTerms: invoiceData.paymentTerms || "Net 30",
       totalPaid: 0,
       remainingBalance: invoiceData.total,
       payments: []
@@ -40,7 +42,7 @@ class InvoiceService {
     return { ...newInvoice };
   }
 
-  async update(id, invoiceData) {
+async update(id, invoiceData) {
     await new Promise(resolve => setTimeout(resolve, 400));
     const index = this.invoices.findIndex(invoice => invoice.Id === parseInt(id));
     if (index === -1) {
@@ -51,7 +53,8 @@ class InvoiceService {
       ...invoiceData,
       Id: parseInt(id),
       issueDate: new Date(invoiceData.issueDate).toISOString(),
-      dueDate: new Date(invoiceData.dueDate).toISOString()
+      dueDate: new Date(invoiceData.dueDate).toISOString(),
+      paymentTerms: invoiceData.paymentTerms || "Net 30"
     };
     
     this.invoices[index] = updatedInvoice;

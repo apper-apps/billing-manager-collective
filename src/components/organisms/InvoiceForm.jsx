@@ -13,12 +13,13 @@ import { serviceService } from "@/services/api/serviceService";
 import { toast } from "react-toastify";
 
 const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
 invoiceNumber: "",
     clientId: "",
     status: "draft",
     issueDate: new Date().toISOString().split("T")[0],
     dueDate: "",
+    paymentTerms: "Net 30",
     lineItems: [{ serviceId: "", description: "", quantity: 1, rate: 0, amount: 0 }],
     notes: "",
     subtotal: 0,
@@ -45,6 +46,7 @@ useEffect(() => {
         ...invoice,
         issueDate: invoice.issueDate.split("T")[0],
         dueDate: invoice.dueDate.split("T")[0],
+        paymentTerms: invoice.paymentTerms || "Net 30",
         totalPaid: invoice.totalPaid || 0,
         remainingBalance: invoice.remainingBalance || invoice.total,
         payments: invoice.payments || []
@@ -139,8 +141,18 @@ useEffect(() => {
     }
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validate that at least one line item exists
+    const validLineItems = formData.lineItems.filter(item => 
+      item.description.trim() || item.serviceId || item.quantity > 0 || item.rate > 0
+    );
+    
+    if (validLineItems.length === 0) {
+      toast.error("At least one line item is required");
+      return;
+    }
     
     // Generate invoice number if creating new
     if (!invoice) {
@@ -243,7 +255,7 @@ const handleCreateClient = async (clientData) => {
           required
         />
 
-        <Input
+<Input
           label="Due Date"
           name="dueDate"
           type="date"
@@ -251,6 +263,20 @@ const handleCreateClient = async (clientData) => {
           onChange={handleInputChange}
           required
         />
+
+        <Select
+          label="Payment Terms"
+          name="paymentTerms"
+          value={formData.paymentTerms}
+          onChange={handleInputChange}
+        >
+          <option value="Due on Receipt">Due on Receipt</option>
+          <option value="Net 15">Net 15</option>
+          <option value="Net 30">Net 30</option>
+          <option value="Net 45">Net 45</option>
+          <option value="Net 60">Net 60</option>
+          <option value="Net 90">Net 90</option>
+        </Select>
 
         <Select
           label="Status"

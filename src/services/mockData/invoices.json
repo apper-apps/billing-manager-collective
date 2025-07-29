@@ -4,8 +4,9 @@
     "invoiceNumber": "INV-2024-001",
     "clientId": 1,
     "status": "paid",
-    "issueDate": "2024-01-15T00:00:00.000Z",
+"issueDate": "2024-01-15T00:00:00.000Z",
     "dueDate": "2024-02-15T00:00:00.000Z",
+    "paymentTerms": "Net 30",
     "lineItems": [
       {
         "Id": 1,
@@ -51,10 +52,11 @@
     "Id": 2,
     "invoiceNumber": "INV-2024-002",
     "clientId": 2,
-    "status": "partially_paid",
-    "issueDate": "2024-01-20T00:00:00.000Z",
+"issueDate": "2024-01-20T00:00:00.000Z",
     "dueDate": "2024-02-20T00:00:00.000Z",
+    "paymentTerms": "Net 30",
     "lineItems": [
+    "lineItems",":", [
       {
         "Id": 3,
         "serviceId": 3,
@@ -64,12 +66,12 @@
         "amount": 5000
       }
     ],
-    "subtotal": 5000,
-    "tax": 500,
-    "total": 5500,
-    "totalPaid": 2750,
-    "remainingBalance": 2750,
-    "payments": [
+    "subtotal",": 5000",
+    "tax",": 500",
+    "total",": 5500",
+    "totalPaid",": 2750",
+    "remainingBalance",": 2750",
+    "payments",":", [
       {
         "Id": 3,
         "amount": 2750,
@@ -78,16 +80,17 @@
         "notes": "50% upfront payment as agreed"
       }
     ],
-    "notes": "50% due upon project start"
+    "notes",":", "50% due upon project start"]
   },
   {
     "Id": 3,
     "invoiceNumber": "INV-2024-003",
     "clientId": 3,
-    "status": "overdue",
-    "issueDate": "2024-01-10T00:00:00.000Z",
+"issueDate": "2024-01-10T00:00:00.000Z",
     "dueDate": "2024-01-25T00:00:00.000Z",
+    "paymentTerms": "Net 15",
     "lineItems": [
+    "lineItems",":", [
       {
         "Id": 4,
         "serviceId": 2,
@@ -105,22 +108,23 @@
         "amount": 375
       }
     ],
-    "subtotal": 675,
-    "tax": 67.5,
-    "total": 742.5,
-    "totalPaid": 0,
-    "remainingBalance": 742.5,
-    "payments": [],
-    "notes": "Payment terms: Net 15 days"
+    "subtotal",": 675",
+    "tax",": 67.5",
+    "total",": 742.5",
+    "totalPaid",": 0",
+    "remainingBalance",": 742.5",
+    "payments",":", [],
+    "notes",":", "Payment terms: Net 15 days"]
   },
   {
     "Id": 4,
     "invoiceNumber": "INV-2024-004",
     "clientId": 1,
-    "status": "draft",
-    "issueDate": "2024-01-25T00:00:00.000Z",
+"issueDate": "2024-01-25T00:00:00.000Z",
     "dueDate": "2024-02-25T00:00:00.000Z",
+    "paymentTerms": "Net 30",
     "lineItems": [
+    "lineItems",":", [
       {
         "Id": 6,
         "serviceId": 5,
@@ -130,22 +134,23 @@
         "amount": 1800
       }
     ],
-    "subtotal": 1800,
-    "tax": 180,
-    "total": 1980,
-    "totalPaid": 0,
-    "remainingBalance": 1980,
-    "payments": [],
-    "notes": "Draft invoice for brand identity project"
+    "subtotal",": 1800",
+    "tax",": 180",
+    "total",": 1980",
+    "totalPaid",": 0",
+    "remainingBalance",": 1980",
+    "payments",":", [],
+    "notes",":", "Draft invoice for brand identity project"]
   },
   {
     "Id": 5,
     "invoiceNumber": "INV-2024-005",
     "clientId": 4,
-    "status": "sent",
-    "issueDate": "2024-01-22T00:00:00.000Z",
+"issueDate": "2024-01-22T00:00:00.000Z",
     "dueDate": "2024-02-22T00:00:00.000Z",
+    "paymentTerms": "Due on Receipt",
     "lineItems": [
+    "lineItems",":", [
       {
         "Id": 7,
         "serviceId": 1,
@@ -163,12 +168,12 @@
         "amount": 800
       }
     ],
-    "subtotal": 4300,
-    "tax": 430,
-    "total": 4730,
-    "totalPaid": 0,
-    "remainingBalance": 4730,
-    "payments": [],
-    "notes": "E-commerce solution with payment processing"
+    "subtotal",": 4300",
+    "tax",": 430",
+    "total",": 4730",
+    "totalPaid",": 0",
+    "remainingBalance",": 4730",
+    "payments",":", [],
+    "notes",":", "E-commerce solution with payment processing"]
   }
 ]
