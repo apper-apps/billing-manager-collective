@@ -10,12 +10,12 @@ import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
+import PaymentModal from "@/components/organisms/PaymentModal";
 import { invoiceService } from "@/services/api/invoiceService";
 import { clientService } from "@/services/api/clientService";
 import { toast } from "react-toastify";
-
 const InvoicesPage = () => {
-  const [invoices, setInvoices] = useState([]);
+const [invoices, setInvoices] = useState([]);
   const [filteredInvoices, setFilteredInvoices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -23,7 +23,8 @@ const InvoicesPage = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [showModal, setShowModal] = useState(false);
   const [editingInvoice, setEditingInvoice] = useState(null);
-
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedInvoiceForPayment, setSelectedInvoiceForPayment] = useState(null);
   useEffect(() => {
     loadInvoices();
   }, []);
@@ -114,11 +115,28 @@ const InvoicesPage = () => {
     }
   };
 
+const handleRecordPayment = (invoice) => {
+    setSelectedInvoiceForPayment(invoice);
+    setShowPaymentModal(true);
+  };
+
+  const handlePaymentRecord = async (invoiceId, paymentData) => {
+    try {
+      await invoiceService.recordPayment(invoiceId, paymentData);
+      await loadInvoices();
+      toast.success("Payment recorded successfully!");
+    } catch (error) {
+      toast.error(`Failed to record payment: ${error.message}`);
+      throw error;
+    }
+  };
+
   const statusOptions = [
     { value: "all", label: "All Statuses" },
     { value: "draft", label: "Draft" },
     { value: "sent", label: "Sent" },
     { value: "paid", label: "Paid" },
+    { value: "partially_paid", label: "Partially Paid" },
     { value: "overdue", label: "Overdue" }
   ];
 
@@ -204,10 +222,11 @@ const InvoicesPage = () => {
         />
       ) : (
         <InvoiceTable
-          invoices={filteredInvoices}
-          onEdit={handleEditInvoice}
-          onDelete={handleDeleteInvoice}
-        />
+invoices={filteredInvoices}
+        onEdit={handleEditInvoice}
+        onDelete={handleDeleteInvoice}
+        onRecordPayment={handleRecordPayment}
+      />
       )}
 
       {/* Invoice Modal */}
@@ -227,8 +246,19 @@ const InvoicesPage = () => {
             setShowModal(false);
             setEditingInvoice(null);
           }}
-        />
+/>
       </Modal>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={showPaymentModal}
+        onClose={() => {
+          setShowPaymentModal(false);
+          setSelectedInvoiceForPayment(null);
+        }}
+        invoice={selectedInvoiceForPayment}
+        onPaymentRecord={handlePaymentRecord}
+      />
     </motion.div>
   );
 };

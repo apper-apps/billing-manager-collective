@@ -27,13 +27,31 @@
     "subtotal": 2950,
     "tax": 295,
     "total": 3245,
+    "totalPaid": 3245,
+    "remainingBalance": 0,
+    "payments": [
+      {
+        "Id": 1,
+        "amount": 2000,
+        "paymentDate": "2024-02-10T00:00:00.000Z",
+        "paymentMethod": "bank transfer",
+        "notes": "Partial payment received"
+      },
+      {
+        "Id": 2,
+        "amount": 1245,
+        "paymentDate": "2024-02-14T00:00:00.000Z",
+        "paymentMethod": "check",
+        "notes": "Final payment - Check #1234"
+      }
+    ],
     "notes": "Thank you for your business!"
   },
   {
     "Id": 2,
     "invoiceNumber": "INV-2024-002",
     "clientId": 2,
-    "status": "sent",
+    "status": "partially_paid",
     "issueDate": "2024-01-20T00:00:00.000Z",
     "dueDate": "2024-02-20T00:00:00.000Z",
     "lineItems": [
@@ -49,6 +67,17 @@
     "subtotal": 5000,
     "tax": 500,
     "total": 5500,
+    "totalPaid": 2750,
+    "remainingBalance": 2750,
+    "payments": [
+      {
+        "Id": 3,
+        "amount": 2750,
+        "paymentDate": "2024-01-25T00:00:00.000Z",
+        "paymentMethod": "cash",
+        "notes": "50% upfront payment as agreed"
+      }
+    ],
     "notes": "50% due upon project start"
   },
   {
@@ -79,6 +108,9 @@
     "subtotal": 675,
     "tax": 67.5,
     "total": 742.5,
+    "totalPaid": 0,
+    "remainingBalance": 742.5,
+    "payments": [],
     "notes": "Payment terms: Net 15 days"
   },
   {
@@ -101,6 +133,9 @@
     "subtotal": 1800,
     "tax": 180,
     "total": 1980,
+    "totalPaid": 0,
+    "remainingBalance": 1980,
+    "payments": [],
     "notes": "Draft invoice for brand identity project"
   },
   {
@@ -131,6 +166,9 @@
     "subtotal": 4300,
     "tax": 430,
     "total": 4730,
+    "totalPaid": 0,
+    "remainingBalance": 4730,
+    "payments": [],
     "notes": "E-commerce solution with payment processing"
   }
 ]

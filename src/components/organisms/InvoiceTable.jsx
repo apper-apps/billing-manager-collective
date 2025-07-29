@@ -5,7 +5,7 @@ import StatusBadge from "@/components/molecules/StatusBadge";
 import Button from "@/components/atoms/Button";
 import { toast } from "react-toastify";
 
-const InvoiceTable = ({ invoices, onEdit, onDelete }) => {
+const InvoiceTable = ({ invoices, onEdit, onDelete, onRecordPayment }) => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -91,8 +91,19 @@ const InvoiceTable = ({ invoices, onEdit, onDelete }) => {
                       onClick={() => onEdit(invoice)}
                       className="hover:bg-primary-50 hover:text-primary-700"
                     >
-                      <ApperIcon name="Edit" className="w-4 h-4" />
+<ApperIcon name="Edit" className="w-4 h-4" />
                     </Button>
+                    {(invoice.status === "sent" || invoice.status === "overdue" || invoice.status === "partially_paid") && (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => onRecordPayment && onRecordPayment(invoice)}
+                        className="hover:bg-green-50 hover:text-green-700"
+                        title="Record Payment"
+                      >
+                        <ApperIcon name="CreditCard" className="w-4 h-4" />
+                      </Button>
+                    )}
                     <Button
                       variant="ghost"
                       size="sm"

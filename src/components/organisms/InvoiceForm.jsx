@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PaymentHistory from "@/components/organisms/PaymentHistory";
 import { motion } from "framer-motion";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
@@ -13,7 +14,7 @@ import { toast } from "react-toastify";
 
 const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
-    invoiceNumber: "",
+invoiceNumber: "",
     clientId: "",
     status: "draft",
     issueDate: new Date().toISOString().split("T")[0],
@@ -22,7 +23,10 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
     notes: "",
     subtotal: 0,
     tax: 0,
-    total: 0
+    total: 0,
+    totalPaid: 0,
+    remainingBalance: 0,
+    payments: []
   });
 
 const [clients, setClients] = useState([]);
@@ -35,12 +39,15 @@ const [clients, setClients] = useState([]);
     loadData();
   }, []);
 
-  useEffect(() => {
+useEffect(() => {
     if (invoice) {
       setFormData({
         ...invoice,
         issueDate: invoice.issueDate.split("T")[0],
-        dueDate: invoice.dueDate.split("T")[0]
+        dueDate: invoice.dueDate.split("T")[0],
+        totalPaid: invoice.totalPaid || 0,
+        remainingBalance: invoice.remainingBalance || invoice.total,
+        payments: invoice.payments || []
       });
     }
   }, [invoice]);
@@ -363,7 +370,7 @@ const handleCreateClient = async (clientData) => {
       </div>
 
       {/* Totals */}
-      <div className="bg-gradient-to-r from-slate-50 to-slate-100 p-6 rounded-lg border border-slate-200">
+<div className="bg-gradient-to-r from-slate-50 to-slate-100 p-6 rounded-lg border border-slate-200">
         <div className="space-y-2 max-w-xs ml-auto">
           <div className="flex justify-between">
             <span className="text-slate-600">Subtotal:</span>
@@ -377,8 +384,33 @@ const handleCreateClient = async (clientData) => {
             <span>Total:</span>
             <span className="text-primary-700">{formatCurrency(formData.total)}</span>
           </div>
+          {invoice && formData.totalPaid > 0 && (
+            <>
+              <div className="flex justify-between text-sm text-green-600 border-t pt-2">
+                <span>Amount Paid:</span>
+                <span className="font-semibold">{formatCurrency(formData.totalPaid)}</span>
+              </div>
+              <div className="flex justify-between text-sm text-primary-600">
+                <span>Remaining Balance:</span>
+                <span className="font-semibold">{formatCurrency(formData.remainingBalance)}</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
+
+{/* Payment History */}
+      {invoice && formData.payments && formData.payments.length > 0 && (
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-4">
+            Payment History
+          </label>
+          <PaymentHistory 
+            payments={formData.payments} 
+            totalAmount={formData.total}
+          />
+        </div>
+      )}
 
       {/* Notes */}
       <div>
@@ -394,7 +426,6 @@ const handleCreateClient = async (clientData) => {
           placeholder="Additional notes for this invoice..."
         />
       </div>
-
       {/* Actions */}
       <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-200">
         <Button type="button" variant="secondary" onClick={onCancel}>
