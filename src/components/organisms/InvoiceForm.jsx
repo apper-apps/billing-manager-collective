@@ -33,8 +33,8 @@ const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showClientModal, setShowClientModal] = useState(false);
-  const [showServiceModal, setShowServiceModal] = useState(false);
-
+const [showServiceModal, setShowServiceModal] = useState(false);
+  const [activeLineItemIndex, setActiveLineItemIndex] = useState(null);
   useEffect(() => {
     loadData();
   }, []);
@@ -301,8 +301,11 @@ const handleCreateClient = async (clientData) => {
                     <Button
                       type="button"
                       variant="secondary"
-                      size="sm"
-                      onClick={() => setShowServiceModal(true)}
+size="sm"
+                      onClick={() => {
+                        setActiveLineItemIndex(index);
+                        setShowServiceModal(true);
+                      }}
                       className="w-full flex items-center justify-center gap-2"
                     >
                       <ApperIcon name="Plus" className="w-3 h-3" />
