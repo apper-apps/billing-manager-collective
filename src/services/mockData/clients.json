@@ -1,0 +1,50 @@
+[
+  {
+    "Id": 1,
+    "name": "John Smith",
+    "email": "john@techstartup.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Tech Avenue, San Francisco, CA 94105",
+    "company": "TechStartup Inc."
+  },
+  {
+    "Id": 2,
+    "name": "Sarah Johnson",
+    "email": "sarah@creativesolution.com",
+    "phone": "+1 (555) 987-6543",
+    "address": "456 Design Street, New York, NY 10001",
+    "company": "Creative Solutions LLC"
+  },
+  {
+    "Id": 3,
+    "name": "Michael Brown",
+    "email": "mike@localcorp.com",
+    "phone": "+1 (555) 555-0123",
+    "address": "789 Business Blvd, Chicago, IL 60601",
+    "company": "Local Corp"
+  },
+  {
+    "Id": 4,
+    "name": "Emily Davis",
+    "email": "emily@retailplus.com",
+    "phone": "+1 (555) 444-5678",
+    "address": "321 Commerce Way, Austin, TX 73301",
+    "company": "Retail Plus"
+  },
+  {
+    "Id": 5,
+    "name": "David Wilson",
+    "email": "david@consultingpro.com",
+    "phone": "+1 (555) 777-8889",
+    "address": "654 Professional Drive, Boston, MA 02101",
+    "company": "Consulting Pro"
+  },
+  {
+    "Id": 6,
+    "name": "Lisa Anderson",
+    "email": "lisa@marketingfirm.com",
+    "phone": "+1 (555) 222-3333",
+    "address": "987 Marketing Plaza, Los Angeles, CA 90210",
+    "company": "Marketing Firm"
+  }
+]

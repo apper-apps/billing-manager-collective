@@ -1,0 +1,136 @@
+[
+  {
+    "Id": 1,
+    "invoiceNumber": "INV-2024-001",
+    "clientId": 1,
+    "status": "paid",
+    "issueDate": "2024-01-15T00:00:00.000Z",
+    "dueDate": "2024-02-15T00:00:00.000Z",
+    "lineItems": [
+      {
+        "Id": 1,
+        "serviceId": 1,
+        "description": "Website Design",
+        "quantity": 1,
+        "rate": 2500,
+        "amount": 2500
+      },
+      {
+        "Id": 2,
+        "serviceId": 2,
+        "description": "SEO Optimization",
+        "quantity": 3,
+        "rate": 150,
+        "amount": 450
+      }
+    ],
+    "subtotal": 2950,
+    "tax": 295,
+    "total": 3245,
+    "notes": "Thank you for your business!"
+  },
+  {
+    "Id": 2,
+    "invoiceNumber": "INV-2024-002",
+    "clientId": 2,
+    "status": "sent",
+    "issueDate": "2024-01-20T00:00:00.000Z",
+    "dueDate": "2024-02-20T00:00:00.000Z",
+    "lineItems": [
+      {
+        "Id": 3,
+        "serviceId": 3,
+        "description": "Mobile App Development",
+        "quantity": 1,
+        "rate": 5000,
+        "amount": 5000
+      }
+    ],
+    "subtotal": 5000,
+    "tax": 500,
+    "total": 5500,
+    "notes": "50% due upon project start"
+  },
+  {
+    "Id": 3,
+    "invoiceNumber": "INV-2024-003",
+    "clientId": 3,
+    "status": "overdue",
+    "issueDate": "2024-01-10T00:00:00.000Z",
+    "dueDate": "2024-01-25T00:00:00.000Z",
+    "lineItems": [
+      {
+        "Id": 4,
+        "serviceId": 2,
+        "description": "SEO Consultation",
+        "quantity": 2,
+        "rate": 150,
+        "amount": 300
+      },
+      {
+        "Id": 5,
+        "serviceId": 4,
+        "description": "Content Writing",
+        "quantity": 5,
+        "rate": 75,
+        "amount": 375
+      }
+    ],
+    "subtotal": 675,
+    "tax": 67.5,
+    "total": 742.5,
+    "notes": "Payment terms: Net 15 days"
+  },
+  {
+    "Id": 4,
+    "invoiceNumber": "INV-2024-004",
+    "clientId": 1,
+    "status": "draft",
+    "issueDate": "2024-01-25T00:00:00.000Z",
+    "dueDate": "2024-02-25T00:00:00.000Z",
+    "lineItems": [
+      {
+        "Id": 6,
+        "serviceId": 5,
+        "description": "Brand Identity Design",
+        "quantity": 1,
+        "rate": 1800,
+        "amount": 1800
+      }
+    ],
+    "subtotal": 1800,
+    "tax": 180,
+    "total": 1980,
+    "notes": "Draft invoice for brand identity project"
+  },
+  {
+    "Id": 5,
+    "invoiceNumber": "INV-2024-005",
+    "clientId": 4,
+    "status": "sent",
+    "issueDate": "2024-01-22T00:00:00.000Z",
+    "dueDate": "2024-02-22T00:00:00.000Z",
+    "lineItems": [
+      {
+        "Id": 7,
+        "serviceId": 1,
+        "description": "E-commerce Website",
+        "quantity": 1,
+        "rate": 3500,
+        "amount": 3500
+      },
+      {
+        "Id": 8,
+        "serviceId": 6,
+        "description": "Payment Gateway Integration",
+        "quantity": 1,
+        "rate": 800,
+        "amount": 800
+      }
+    ],
+    "subtotal": 4300,
+    "tax": 430,
+    "total": 4730,
+    "notes": "E-commerce solution with payment processing"
+  }
+]

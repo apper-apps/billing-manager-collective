@@ -1,0 +1,58 @@
+[
+  {
+    "Id": 1,
+    "name": "Website Design",
+    "description": "Custom website design and development services",
+    "price": 2500,
+    "unit": "project"
+  },
+  {
+    "Id": 2,
+    "name": "SEO Optimization",
+    "description": "Search engine optimization and consultation",
+    "price": 150,
+    "unit": "hour"
+  },
+  {
+    "Id": 3,
+    "name": "Mobile App Development",
+    "description": "Native and cross-platform mobile application development",
+    "price": 5000,
+    "unit": "project"
+  },
+  {
+    "Id": 4,
+    "name": "Content Writing",
+    "description": "Professional content creation and copywriting",
+    "price": 75,
+    "unit": "hour"
+  },
+  {
+    "Id": 5,
+    "name": "Brand Identity Design",
+    "description": "Logo design, brand guidelines, and visual identity",
+    "price": 1800,
+    "unit": "project"
+  },
+  {
+    "Id": 6,
+    "name": "Payment Gateway Integration",
+    "description": "E-commerce payment processing setup and integration",
+    "price": 800,
+    "unit": "project"
+  },
+  {
+    "Id": 7,
+    "name": "Social Media Management",
+    "description": "Social media strategy and content management",
+    "price": 500,
+    "unit": "month"
+  },
+  {
+    "Id": 8,
+    "name": "Technical Consultation",
+    "description": "Expert technical advice and problem-solving",
+    "price": 125,
+    "unit": "hour"
+  }
+]
