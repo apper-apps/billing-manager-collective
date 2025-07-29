@@ -3,9 +3,13 @@ import { motion } from "framer-motion";
 import Input from "@/components/atoms/Input";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
+import Modal from "@/components/atoms/Modal";
 import ApperIcon from "@/components/ApperIcon";
+import ClientForm from "@/components/organisms/ClientForm";
+import ServiceForm from "@/components/organisms/ServiceForm";
 import { clientService } from "@/services/api/clientService";
 import { serviceService } from "@/services/api/serviceService";
+import { toast } from "react-toastify";
 
 const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -21,9 +25,11 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
     total: 0
   });
 
-  const [clients, setClients] = useState([]);
+const [clients, setClients] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showClientModal, setShowClientModal] = useState(false);
+  const [showServiceModal, setShowServiceModal] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -138,6 +144,29 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
     onSubmit(formData);
   };
 
+const handleCreateClient = async (clientData) => {
+    try {
+      const newClient = await clientService.create(clientData);
+      setClients(prev => [...prev, newClient]);
+      setFormData(prev => ({ ...prev, clientId: newClient.Id }));
+      setShowClientModal(false);
+      toast.success("Client created successfully!");
+    } catch (error) {
+      toast.error("Failed to create client");
+    }
+  };
+
+  const handleCreateService = async (serviceData) => {
+    try {
+      const newService = await serviceService.create(serviceData);
+      setServices(prev => [...prev, newService]);
+      setShowServiceModal(false);
+      toast.success("Service created successfully!");
+    } catch (error) {
+      toast.error("Failed to create service");
+    }
+  };
+
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -171,20 +200,32 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
           disabled={!!invoice}
         />
         
-        <Select
-          label="Client"
-          name="clientId"
-          value={formData.clientId}
-          onChange={handleInputChange}
-          required
-        >
-          <option value="">Select a client</option>
-          {clients.map(client => (
-            <option key={client.Id} value={client.Id}>
-              {client.name} - {client.company}
-            </option>
-          ))}
-        </Select>
+<div className="space-y-2">
+          <Select
+            label="Client"
+            name="clientId"
+            value={formData.clientId}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Select a client</option>
+            {clients.map(client => (
+              <option key={client.Id} value={client.Id}>
+                {client.name} - {client.company}
+              </option>
+            ))}
+          </Select>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => setShowClientModal(true)}
+            className="w-full flex items-center justify-center gap-2"
+          >
+            <ApperIcon name="Plus" className="w-4 h-4" />
+            Add New Client
+          </Button>
+        </div>
 
         <Input
           label="Issue Date"
@@ -237,18 +278,30 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
             >
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
                 <div className="md:col-span-3">
-                  <Select
-                    label="Service"
-                    value={item.serviceId}
-                    onChange={(e) => handleLineItemChange(index, "serviceId", e.target.value)}
-                  >
-                    <option value="">Select service</option>
-                    {services.map(service => (
-                      <option key={service.Id} value={service.Id}>
-                        {service.name}
-                      </option>
-                    ))}
-                  </Select>
+<div className="space-y-2">
+                    <Select
+                      label="Service"
+                      value={item.serviceId}
+                      onChange={(e) => handleLineItemChange(index, "serviceId", e.target.value)}
+                    >
+                      <option value="">Select service</option>
+                      {services.map(service => (
+                        <option key={service.Id} value={service.Id}>
+                          {service.name}
+                        </option>
+                      ))}
+                    </Select>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => setShowServiceModal(true)}
+                      className="w-full flex items-center justify-center gap-2"
+                    >
+                      <ApperIcon name="Plus" className="w-3 h-3" />
+                      Add Service
+                    </Button>
+                  </div>
                 </div>
 
                 <div className="md:col-span-3">
@@ -352,6 +405,31 @@ const InvoiceForm = ({ invoice, onSubmit, onCancel }) => {
           {invoice ? "Update Invoice" : "Create Invoice"}
         </Button>
       </div>
+{/* Client Modal */}
+      <Modal
+        isOpen={showClientModal}
+        onClose={() => setShowClientModal(false)}
+        title="Add New Client"
+        size="lg"
+      >
+        <ClientForm
+          onSubmit={handleCreateClient}
+          onCancel={() => setShowClientModal(false)}
+        />
+      </Modal>
+
+      {/* Service Modal */}
+      <Modal
+        isOpen={showServiceModal}
+        onClose={() => setShowServiceModal(false)}
+        title="Add New Service"
+        size="md"
+      >
+        <ServiceForm
+          onSubmit={handleCreateService}
+          onCancel={() => setShowServiceModal(false)}
+        />
+      </Modal>
     </form>
   );
 };
