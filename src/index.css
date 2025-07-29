@@ -15,10 +15,19 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Modal Overlay */
+.modal-overlay {
+  z-index: 9998;
+}
+
+.modal-content {
+  z-index: 9999;
+}
+
 /* Toast Customization */
 .Toastify__toast-container {
   font-family: 'Inter', system-ui, sans-serif;
-  z-index: 9999;
+  z-index: 10000;
 }
 
 .Toastify__toast {
