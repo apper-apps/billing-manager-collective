@@ -27,6 +27,18 @@ constructor() {
 
 async create(invoiceData) {
     await new Promise(resolve => setTimeout(resolve, 400));
+    
+    // Validate line items
+    const validLineItems = invoiceData.lineItems?.filter(item => {
+      const quantity = parseFloat(item.quantity) || 0;
+      const rate = parseFloat(item.rate) || 0;
+      return quantity > 0 && rate > 0;
+    }) || [];
+    
+    if (validLineItems.length === 0) {
+      throw new Error("At least one line item with quantity and rate values is required");
+    }
+    
     const maxId = Math.max(...this.invoices.map(invoice => invoice.Id), 0);
     const newInvoice = {
       ...invoiceData,
@@ -47,6 +59,17 @@ async update(id, invoiceData) {
     const index = this.invoices.findIndex(invoice => invoice.Id === parseInt(id));
     if (index === -1) {
       throw new Error("Invoice not found");
+    }
+    
+    // Validate line items
+    const validLineItems = invoiceData.lineItems?.filter(item => {
+      const quantity = parseFloat(item.quantity) || 0;
+      const rate = parseFloat(item.rate) || 0;
+      return quantity > 0 && rate > 0;
+    }) || [];
+    
+    if (validLineItems.length === 0) {
+      throw new Error("At least one line item with quantity and rate values is required");
     }
     
     const updatedInvoice = {

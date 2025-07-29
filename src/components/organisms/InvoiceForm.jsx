@@ -144,13 +144,15 @@ useEffect(() => {
 const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Validate that at least one line item exists
-    const validLineItems = formData.lineItems.filter(item => 
-      item.description.trim() || item.serviceId || item.quantity > 0 || item.rate > 0
-    );
+    // Validate that at least one complete line item exists
+    const validLineItems = formData.lineItems.filter(item => {
+      const quantity = parseFloat(item.quantity) || 0;
+      const rate = parseFloat(item.rate) || 0;
+      return quantity > 0 && rate > 0;
+    });
     
     if (validLineItems.length === 0) {
-      toast.error("At least one line item is required");
+      toast.error("At least one line item with quantity and rate values is required");
       return;
     }
     
@@ -350,24 +352,26 @@ size="sm"
                 </div>
 
                 <div className="md:col-span-2">
-                  <Input
-                    label="Quantity"
+<Input
+                    label="Quantity *"
                     type="number"
                     min="0"
                     step="0.01"
                     value={item.quantity}
                     onChange={(e) => handleLineItemChange(index, "quantity", e.target.value)}
+                    required
                   />
                 </div>
 
                 <div className="md:col-span-2">
                   <Input
-                    label="Rate"
+                    label="Rate *"
                     type="number"
                     min="0"
                     step="0.01"
                     value={item.rate}
                     onChange={(e) => handleLineItemChange(index, "rate", e.target.value)}
+                    required
                   />
                 </div>
 
